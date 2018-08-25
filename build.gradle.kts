@@ -13,4 +13,5 @@ application{
 
 dependencies {
     compile(kotlin("stdlib"))
+    implementation("com.beust:klaxon:3.0.1")
 }
