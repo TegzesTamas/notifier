@@ -14,4 +14,5 @@ application{
 dependencies {
     compile(kotlin("stdlib"))
     implementation("com.beust:klaxon:3.0.1")
+    implementation("com.github.magneticflux:kotlin-simplexml-rss:1.1.2")
 }
