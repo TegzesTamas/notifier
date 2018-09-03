@@ -19,3 +19,7 @@ gradle-app.setting
 
 # Pushbullet API key
 pushbullet_key.txt
+
+# Google authentication secrets
+**/credentials.json
+tokens
