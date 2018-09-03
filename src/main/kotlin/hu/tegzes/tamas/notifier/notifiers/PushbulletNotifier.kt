@@ -1,4 +1,4 @@
-package hu.tegzes.tamas.notifiers
+package hu.tegzes.tamas.notifier.notifiers
 
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection

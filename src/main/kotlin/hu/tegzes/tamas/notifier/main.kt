@@ -1,6 +1,6 @@
 package hu.tegzes.tamas.notifier
 
-import hu.tegzes.tamas.notifiers.EmailNotifier
+import hu.tegzes.tamas.notifier.notifiers.EmailNotifier
 
 fun main(args: Array<String>) {
 //    println("Hello")
