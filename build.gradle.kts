@@ -5,6 +5,7 @@ plugins {
 
 repositories {
     jcenter()
+    maven("https://dl.bintray.com/kotlin/exposed")
 }
 
 application {
@@ -19,4 +20,7 @@ dependencies {
     compile("com.google.oauth-client:google-oauth-client-jetty:1.23.0")
     compile("com.google.apis:google-api-services-gmail:v1-rev83-1.23.0")
     compile(group = "com.sun.mail", name = "javax.mail", version = "1.6.2")
+    compile(group = "org.xerial", name = "sqlite-jdbc", version = "3.20.1")
+    compile(group = "org.jetbrains.exposed", name = "exposed", version = "0.10.4")
+    compile(group = "org.slf4j", name = "slf4j-log4j12", version = "1.7.25")
 }

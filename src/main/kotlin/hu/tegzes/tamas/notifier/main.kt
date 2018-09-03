@@ -1,18 +1,77 @@
 package hu.tegzes.tamas.notifier
 
-import hu.tegzes.tamas.notifier.notifiers.EmailNotifier
+import org.jetbrains.exposed.dao.IntIdTable
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.TransactionManager
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.sql.Connection
+
 
 fun main(args: Array<String>) {
-//    println("Hello")
-//    val rssReader = RSSReader(URL("https://www.mavcsoport.hu/mavinform/rss.xml"))
-//    val bufferedReader = File("pushbullet_key.txt").bufferedReader()
-//    val apiKey = bufferedReader.readLine()
-//    bufferedReader.close()
-//    val text = rssReader.update()
-//    if (text != null) {
-//        PushbulletNotifier(apiKey).sendNote(body = text, email = "tamastom96@gmail.com")
-//    }
-//    EmailNotifier("asdf").asdf();
-    EmailNotifier.sendEmail("tegzes.tamas@gmail.com", "árvíztűrő tükörfúrógép", "asdf, árvíztűrő tükörfúrógép")
+    Database.connect("jdbc:sqlite:/media/LinuxData/sqlite_db/test.db", "org.sqlite.JDBC")
+    TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
 
+    transaction {
+        addLogger(StdOutSqlLogger)
+
+        SchemaUtils.create(Cities, Residents)
+
+        val stPeteId = Cities.insert {
+            it[name] = "St. Petersburg"
+        } get Cities.id
+
+        val budapestId = Cities.insert {
+            it[name] = "Budapest"
+        } get Cities.id
+
+        if (stPeteId != null) {
+
+            Residents.insert {
+                it[name] = "Vladimir"
+                it[city] = stPeteId
+            }
+
+            Residents.insert {
+                it[name] = "Vladimirovic"
+                it[city] = stPeteId
+            }
+
+            Residents.insert {
+                it[name] = "Vladimirovicovic"
+                it[city] = stPeteId
+            }
+        }
+        if (budapestId != null) {
+            Residents.insert {
+                it[name] = "Kovács"
+                it[city] = budapestId
+            }
+
+            Residents.insert {
+                it[name] = "Kovácsné"
+                it[city] = budapestId
+            }
+
+            Residents.insert {
+                it[name] = "ifj. Kovács"
+                it[city] = budapestId
+            }
+        }
+
+        println("Id of St. Petersburg: $stPeteId")
+
+        for (row in (Cities innerJoin Residents).selectAll()) {
+            println(row)
+        }
+
+    }
+}
+
+object Cities : IntIdTable() {
+    val name = varchar("name", 50)
+}
+
+object Residents : IntIdTable() {
+    val city = entityId("city", Cities) references Cities.id
+    val name = text("name")
 }
