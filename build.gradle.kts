@@ -1,6 +1,6 @@
 plugins {
     application
-    kotlin("jvm").version("1.2.61")
+    kotlin("jvm").version("1.3.11")
 }
 
 repositories {
@@ -21,6 +21,6 @@ dependencies {
     compile("com.google.apis:google-api-services-gmail:v1-rev83-1.23.0")
     compile(group = "com.sun.mail", name = "javax.mail", version = "1.6.2")
     compile(group = "org.xerial", name = "sqlite-jdbc", version = "3.20.1")
-    compile(group = "org.jetbrains.exposed", name = "exposed", version = "0.10.4")
+    compile(group = "org.jetbrains.exposed", name = "exposed", version = "0.11.2")
     compile(group = "org.slf4j", name = "slf4j-log4j12", version = "1.7.25")
 }
