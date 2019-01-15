@@ -1,17 +1,20 @@
 package hu.tegzes.tamas.notifier.notifiers
 
+import java.io.FileReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 
-class PushbulletNotifier(private val apiKey: String,
-                         val email: String?,
+class PushbulletNotifier(val email: String?,
                          val device_iden: String?,
                          val channel_tag: String?,
-                         val client_iden: String?) {
+                         val client_iden: String?) : Notifier {
+    override fun visit(visitor: NotifierVisitor) {
+        visitor.visitPushbulletNotifier(this)
+    }
 
     fun sendNote(body: String, title: String?) {
-        Companion.sendNote(apiKey = apiKey,
+        Companion.sendNote(
                 title = title,
                 body = body,
                 email = email,
@@ -21,7 +24,7 @@ class PushbulletNotifier(private val apiKey: String,
     }
 
     fun sendLink(url: String, body: String?, title: String?) {
-        Companion.sendLink(apiKey = apiKey,
+        Companion.sendLink(
                 url = url,
                 title = title,
                 body = body,
@@ -33,8 +36,9 @@ class PushbulletNotifier(private val apiKey: String,
 
     companion object {
         private const val PUSHBULLET_API_ADDRESS = """https://api.pushbullet.com/v2/pushes"""
-        fun sendNote(apiKey: String,
-                     body: String,
+        private val apiKey: String by lazy { FileReader("pushbullet_apikey.txt").readLines()[0] }
+
+        fun sendNote(body: String,
                      email: String? = null,
                      title: String? = null,
                      device_iden: String? = null,
@@ -64,8 +68,7 @@ class PushbulletNotifier(private val apiKey: String,
             bufferedReader.close()
         }
 
-        fun sendLink(apiKey: String,
-                     url: String,
+        fun sendLink(url: String,
                      title: String? = null,
                      body: String? = null,
                      email: String? = null,
