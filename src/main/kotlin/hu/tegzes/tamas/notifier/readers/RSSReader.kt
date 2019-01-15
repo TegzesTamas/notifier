@@ -3,11 +3,12 @@ package hu.tegzes.tamas.notifier.readers
 import com.github.magneticflux.rss.createRssPersister
 import com.github.magneticflux.rss.namespaces.standard.elements.Rss
 import hu.tegzes.tamas.notifier.notifiers.EmailNotifier
-import hu.tegzes.tamas.notifier.notifiers.Notifier
 import hu.tegzes.tamas.notifier.notifiers.PushbulletNotifier
+import org.jetbrains.exposed.dao.EntityID
+import org.joda.time.DateTime
 import java.net.URL
 
-class RSSReader(notifiers: List<Notifier>, val url: URL) : Reader(notifiers) {
+class RSSReader(val id: EntityID<Int>, val url: URL, titleFilter: String, descFilter: String, lastMatchTime: DateTime) : Reader() {
     private lateinit var root: Rss
 
     override fun checkForUpdates(): Boolean {
