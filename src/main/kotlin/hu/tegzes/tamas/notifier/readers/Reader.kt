@@ -22,5 +22,5 @@ abstract class Reader() : NotifierVisitor {
         }
     }
 
-    abstract fun checkForUpdates(): Boolean
+    protected abstract fun checkForUpdates(): Boolean
 }
