@@ -76,3 +76,32 @@ fun addSubscription(readerId: EntityID<Int>, notifierId: EntityID<Int>): Boolean
         return false
     }
 }
+
+fun addRssReader(url: String, titleFilter: String?, descFilter: String?): RSSReader? {
+    var rssReader: RSSReader? = null
+    transaction {
+        val id = ReaderTable.insertAndGetId { }
+        RssReaderTable.insert {
+            it[RssReaderTable.readerId] = id
+            it[RssReaderTable.url] = url
+            it[RssReaderTable.titleFilter] = titleFilter
+            it[RssReaderTable.descFilter] = descFilter
+            it[RssReaderTable.lastMatchTime] = null
+        }
+        rssReader = RSSReader(id, URL(url), titleFilter, descFilter, null)
+    }
+    return rssReader
+}
+
+fun addEmailNotifier(recipient: String): Pair<EntityID<Int>, EmailNotifier>? {
+    var ret: Pair<EntityID<Int>, EmailNotifier>? = null
+    transaction {
+        val id = NotifierTable.insertAndGetId { }
+        EmailNotifierTable.insert {
+            it[EmailNotifierTable.notifierId] = id
+            it[EmailNotifierTable.recipient] = recipient
+        }
+        ret = id to EmailNotifier(recipient)
+    }
+    return ret
+}
