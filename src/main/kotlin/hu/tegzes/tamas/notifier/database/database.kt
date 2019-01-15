@@ -28,6 +28,8 @@ fun init(): Pair<MutableMap<EntityID<Int>, Reader>, MutableMap<EntityID<Int>, No
     val notifiers = mutableMapOf<EntityID<Int>, Notifier>()
     transaction {
         addLogger(StdOutSqlLogger)
+
+        SchemaUtils.drop(ReaderTable, NotifierTable, SubscriptionTable, RssReaderTable, WebReaderTable, EmailNotifierTable, PushbulletNotifierTable)
         SchemaUtils.create(ReaderTable, NotifierTable, SubscriptionTable, RssReaderTable, WebReaderTable, EmailNotifierTable, PushbulletNotifierTable)
         RssReaderTable.selectAll().forEach {
             readers[it[RssReaderTable.readerId]] =
