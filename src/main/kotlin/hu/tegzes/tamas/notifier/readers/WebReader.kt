@@ -6,6 +6,8 @@ import hu.tegzes.tamas.notifier.notifiers.PushbulletNotifier
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
+import java.io.PrintWriter
+import java.io.StringWriter
 import java.net.URL
 
 class WebReader(val id: EntityID<Int>, val url: URL, var lastContent: String?) : Reader() {
@@ -16,10 +18,11 @@ class WebReader(val id: EntityID<Int>, val url: URL, var lastContent: String?) :
         var content: String?
         try {
             val connection = url.openConnection()
-            with(connection) {
-                connection.connect()
-                content = connection.getInputStream().bufferedReader().readText()
-            }
+            connection.connectTimeout = 1000;
+            connection.connect()
+            val bufferedReader = connection.getInputStream().bufferedReader()
+            content = bufferedReader.readText()
+            bufferedReader.close()
         } catch (e: Exception) {
             exception = e
             return true
@@ -53,7 +56,9 @@ class WebReader(val id: EntityID<Int>, val url: URL, var lastContent: String?) :
     override fun visitEmailNotifier(email: EmailNotifier) {
         val except = exception
         if (except != null) {
-            email.sendEmail("Webreader exception: ${except.message}, URL:$url", body = "An exception arose while trying to get $url: ${except.stackTrace}")
+            val stacktrace = StringWriter()
+            except.printStackTrace(PrintWriter(stacktrace))
+            email.sendEmail("Webreader exception: ${except.message}, URL:$url", body = "An exception arose while trying to get $url:\n $stacktrace")
         } else {
             email.sendEmail("Site updated: $url", body = "There was an update to the site $url\n$lastContent")
         }
