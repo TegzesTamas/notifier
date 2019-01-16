@@ -42,7 +42,7 @@ fun init(): Pair<MutableMap<EntityID<Int>, Reader>, MutableMap<EntityID<Int>, No
         WebReaderTable.selectAll().forEach {
             readers[it[WebReaderTable.readerId]] =
                     WebReader(it[WebReaderTable.readerId],
-                            it[WebReaderTable.url],
+                            URL(it[WebReaderTable.url]),
                             it[WebReaderTable.lastContent])
         }
         EmailNotifierTable.selectAll().forEach {
@@ -93,6 +93,20 @@ fun addRssReader(url: String, titleFilter: String?, descFilter: String?): RSSRea
         rssReader = RSSReader(id, URL(url), titleFilter, descFilter, null)
     }
     return rssReader
+}
+
+fun addWebReader(url: String): WebReader? {
+    var webReader: WebReader? = null
+    transaction {
+        val id = ReaderTable.insertAndGetId { }
+        WebReaderTable.insert {
+            it[readerId] = id
+            it[WebReaderTable.url] = url
+            it[lastContent] = null
+        }
+        webReader = WebReader(id, URL(url), null)
+    }
+    return webReader
 }
 
 fun addEmailNotifier(recipient: String): Pair<EntityID<Int>, EmailNotifier>? {

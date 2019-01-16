@@ -21,7 +21,7 @@ object RssReaderTable : Table("RssReader") {
     val readerId = (RssReaderTable.entityId("readerId", ReaderTable) references ReaderTable.id).primaryKey()
 }
 
-object WebReaderTable : IntIdTable("WebReader") {
+object WebReaderTable : Table("WebReader") {
     val url = WebReaderTable.varchar("url", 100)
     val lastContent = WebReaderTable.text("lastContent").nullable()
     var readerId = (WebReaderTable.entityId("readerId", ReaderTable) references ReaderTable.id).primaryKey()

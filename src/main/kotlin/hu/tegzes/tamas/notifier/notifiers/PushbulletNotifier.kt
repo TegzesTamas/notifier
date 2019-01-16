@@ -13,8 +13,8 @@ class PushbulletNotifier(val email: String?,
         visitor.visitPushbulletNotifier(this)
     }
 
-    fun sendNote(body: String, title: String?) {
-        Companion.sendNote(
+    fun sendNote(body: String, title: String? = null) {
+        sendNote(
                 title = title,
                 body = body,
                 email = email,
@@ -23,8 +23,8 @@ class PushbulletNotifier(val email: String?,
                 client_iden = client_iden)
     }
 
-    fun sendLink(url: String, body: String?, title: String?) {
-        Companion.sendLink(
+    fun sendLink(url: String, body: String? = null, title: String? = null) {
+        sendLink(
                 url = url,
                 title = title,
                 body = body,
