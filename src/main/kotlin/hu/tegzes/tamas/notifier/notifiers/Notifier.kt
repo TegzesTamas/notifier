@@ -1,5 +1,6 @@
 package hu.tegzes.tamas.notifier.notifiers
 
-interface Notifier {
-    fun visit(visitor: NotifierVisitor)
+abstract class Notifier {
+    abstract fun visit(visitor: NotifierVisitor)
+    abstract override fun toString(): String
 }

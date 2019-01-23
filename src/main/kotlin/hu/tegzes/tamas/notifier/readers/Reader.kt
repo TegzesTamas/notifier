@@ -23,4 +23,6 @@ abstract class Reader() : NotifierVisitor {
     }
 
     protected abstract fun checkForUpdates(): Boolean
+
+    abstract override fun toString(): String
 }

@@ -8,7 +8,11 @@ import javax.net.ssl.HttpsURLConnection
 class PushbulletNotifier(val email: String?,
                          val device_iden: String?,
                          val channel_tag: String?,
-                         val client_iden: String?) : Notifier {
+                         val client_iden: String?) : Notifier() {
+
+    override fun toString(): String =
+            "PushbulletNotifier\t email: $email\t device_iden: $device_iden\tchannel_tag: $channel_tag\tclient_iden: $client_iden"
+
     override fun visit(visitor: NotifierVisitor) {
         visitor.visitPushbulletNotifier(this)
     }

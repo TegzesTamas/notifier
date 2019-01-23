@@ -58,7 +58,11 @@ class RSSReader(val id: EntityID<Int>, val url: URL, titleFilter: String?, descF
             """
                 Feed URL: $url
                 Item link: ${freshItem.link ?: "<no link>"}
-                Item description: ${freshItem.description ?: "<no description>"}"""".trimIndent())
+                Item description: ${freshItem.description ?: "<no description>"}""".trimIndent())
         }
     }
+
+
+    override fun toString(): String =
+            "RSSReader\tURL: $url\tTitleFilter: $titleFilter\tDescFilter: $descFilter\tLastMatchTime: $localLastMatchTime"
 }

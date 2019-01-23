@@ -20,7 +20,9 @@ import javax.mail.Session
 import javax.mail.internet.MimeMessage
 
 
-class EmailNotifier(val recipient: String) : Notifier {
+class EmailNotifier(val recipient: String) : Notifier() {
+    override fun toString(): String = "EmailNotifier, recipient: $recipient"
+
     override fun visit(visitor: NotifierVisitor) {
         visitor.visitEmailNotifier(this)
     }

@@ -64,4 +64,6 @@ class WebReader(val id: EntityID<Int>, val url: URL, var lastContent: String?) :
         }
     }
 
+    override fun toString(): String = "WebReader\tURL:$url"
+
 }
